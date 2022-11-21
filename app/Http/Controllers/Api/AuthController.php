@@ -32,13 +32,13 @@ class AuthController extends Controller
                 'password' => bcrypt($request->password),
             ]);
             $token = $user->createToken('auth_token')->plainTextToken;
-
+            DB::commit();
             return response()->json([
                 'message' => 'Terima kasih telah mendaftar di blonjoo',
                 'data' => ['token' => $token, 'user' => $user]
             ], Response::HTTP_OK);
 
-            DB::commit();
+
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
